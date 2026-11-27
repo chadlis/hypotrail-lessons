@@ -1,10 +1,10 @@
 {
   "schema_version": "lesson-pack/2",
-  "id": "scoring-en",
-  "version": "0.2.1",
-  "title": "Forecasting from framing to delivery",
+  "id": "forecasting-en",
+  "version": "0.3.0",
+  "title": "Time-series forecasting from framing to delivery",
   "language": "en",
-  "licence": "unlicensed",
+  "licence": "CC-BY-4.0",
   "tracks": [
     "temporal_regression"
   ],
