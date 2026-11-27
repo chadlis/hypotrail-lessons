@@ -285,7 +285,7 @@
         "Fix the rule and its fallback for missing history before scoring.",
         "Score the rule on the same units, horizon and Metric planned for the Candidate."
       ],
-      "how_to_read": "Use the baseline result as a reference for improvement. A baseline that performs well can expose a Candidate that adds complexity for little gain.",
+      "how_to_read": "Use the baseline result to judge improvement. A baseline that performs well can expose a Candidate that adds complexity for little gain.",
       "pitfalls": [
         "Using the last recorded observation instead of the last available one leaks information. The source first published it after the forecast was issued.",
         "Dropping units without history makes the baseline look stronger. The covered units or the number of forecasts differ from the Candidate."
