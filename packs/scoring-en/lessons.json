@@ -1,0 +1,550 @@
+{
+  "lessons": [
+    {
+      "id": "who-uses-the-result",
+      "station": "intake",
+      "track": "temporal_regression",
+      "title": "Find the person who uses the forecast",
+      "why_this_step": "A useful forecast arrives while someone can still act on it. Start with the person who makes the decision and the situation in which they make it.",
+      "how_to_do_it": [
+        "Name the person or role that will read the forecast.",
+        "Ask when they make the decision and what they look at today.",
+        "Describe the constraints they face when they act."
+      ],
+      "how_to_read": "Check that a colleague could identify the recipient, the moment of use and the action they control from the description.",
+      "pitfalls": [
+        "Naming a whole department hides responsibility. In a walkthrough, nobody can say who would receive the forecast or respond to it.",
+        "A forecast can arrive too late. When you replay a typical decision, the recipient has already committed to an action."
+      ],
+      "question": "Who can still act when the forecast arrives?",
+      "key_paths": []
+    },
+    {
+      "id": "what-decision-changes",
+      "station": "intake",
+      "track": "temporal_regression",
+      "title": "Connect the forecast to a decision",
+      "why_this_step": "A forecast matters when different values can lead to different actions. Naming the decision gives you a way to judge whether better predictions would help.",
+      "how_to_do_it": [
+        "Write down the action the person takes today.",
+        "Describe an alternative action they can actually take.",
+        "Ask which forecast values would make them choose the alternative."
+      ],
+      "how_to_read": "Read the proposed use as a pair of examples. Each gives a possible forecast and the action it would support.",
+      "pitfalls": [
+        "A forecast can be interesting yet unused. When you try plausible low and high values, the intended user makes the same choice each time.",
+        "An option can be impractical. The walkthrough reaches a proposed action that exceeds the team's capacity or authority."
+      ],
+      "question": "Which plausible forecast would make the person change their action?",
+      "key_paths": []
+    },
+    {
+      "id": "prediction-time",
+      "station": "framing",
+      "track": "temporal_regression",
+      "title": "Fix the time when you predict",
+      "why_this_step": "Prediction time determines what information can be used. A clear cutoff makes a historical evaluation represent the conditions in which a forecast will be made.",
+      "how_to_do_it": [
+        "Place the forecast on the timeline of the decision.",
+        "Declare the latest time at which inputs may become available.",
+        "Replay a past forecast with only the information that existed at the cutoff."
+      ],
+      "how_to_read": "Compare each input's availability time with the cutoff. An event timestamp describes when an event happened. A delivery timestamp describes when you could use its data.",
+      "pitfalls": [
+        "Late data can make a historical forecast too strong. The replay includes a value posted after the declared cutoff."
+      ],
+      "question": "What would you actually know if you had to predict at the cutoff?",
+      "key_paths": []
+    },
+    {
+      "id": "outcome-horizon-and-label-maturity",
+      "station": "framing",
+      "track": "temporal_regression",
+      "title": "Set the horizon and the outcome cutoff",
+      "why_this_step": "The horizon defines the future window the forecast covers. Outcome maturity tells you when the observed value is complete enough to use for evaluation.",
+      "how_to_do_it": [
+        "Write when the outcome window opens and closes relative to prediction time.",
+        "Find when outcomes for that window become complete in the source.",
+        "Exclude outcomes that could still change when you assemble the evaluation."
+      ],
+      "how_to_read": "Read prediction time, window end and outcome maturity as successive moments. A record may be present while its outcome is still incomplete.",
+      "pitfalls": [
+        "Treating recent outcomes as final biases the evaluation. The same units acquire more events when you refresh the data.",
+        "A shifted outcome window changes the question. A timeline check finds a forecast scored on a period other than the one it names."
+      ],
+      "question": "How long after the outcome window closes can you trust the observed value?",
+      "key_paths": []
+    },
+    {
+      "id": "unit-of-prediction",
+      "station": "framing",
+      "track": "temporal_regression",
+      "title": "Define what one forecast is about",
+      "why_this_step": "The unit tells you which prediction should match which outcome. It also determines which errors count once when you summarise performance.",
+      "how_to_do_it": [
+        "Describe one forecast as a named entity over a stated time window.",
+        "Choose a key that identifies that unit on both sides of the evaluation.",
+        "Check for duplicate keys and missing matches before calculating errors."
+      ],
+      "how_to_read": "Read one joined row aloud as a sentence about the entity and its time window. Each forecast should match the outcome for that same unit.",
+      "pitfalls": [
+        "A duplicated key overweights some units. The joined table grows when it should keep a single match for each forecast.",
+        "Different time windows make errors hard to interpret. A sample row pairs a forecast and outcome that cover different periods."
+      ],
+      "question": "What entity and time window does a single forecast describe?",
+      "key_paths": []
+    },
+    {
+      "id": "success-metric",
+      "station": "framing",
+      "track": "temporal_regression",
+      "title": "Choose a Metric that reflects the decision",
+      "why_this_step": "A Metric converts errors into a measure you can compare. It should reflect the mistakes the intended user most needs to avoid.",
+      "how_to_do_it": [
+        "List the consequences of predicting too high and too low.",
+        "Select a Metric whose treatment of those mistakes matches the intended use.",
+        "State the unit, the direction of improvement and how units are combined."
+      ],
+      "how_to_read": "Translate an error into something the recipient recognises. Check how the Metric responds when a large error or a systematic bias appears.",
+      "pitfalls": [
+        "A convenient Metric can reward forecasts that make the wrong tradeoff. Two example errors have similar scores even though one leads to a much more costly decision.",
+        "An average can conceal a recurring problem. Overall error falls while errors grow during the period when the recipient depends on the forecast."
+      ],
+      "question": "Which forecasting mistake should this Metric penalise most?",
+      "key_paths": []
+    },
+    {
+      "id": "minimum-difference-that-matters",
+      "station": "framing",
+      "track": "temporal_regression",
+      "title": "Set the smallest useful improvement",
+      "why_this_step": "A measured gain can be too small to justify changing a working process. A threshold in the Metric's unit connects the result to what the recipient can use.",
+      "how_to_do_it": [
+        "Ask what change in forecast error would affect an action or its cost.",
+        "Translate that change into the Metric's unit.",
+        "Write down how you will handle an interval that crosses the threshold."
+      ],
+      "how_to_read": "Compare the estimated improvement and its interval with the threshold. If the interval spans it, the evidence leaves open whether the gain is large enough to matter.",
+      "pitfalls": [
+        "A threshold picked after seeing results can favour the Candidate. The recorded threshold first appears after someone has examined the Comparison.",
+        "A threshold in the wrong unit invites a false comparison. The rule gives a proportion while the Comparison gives an absolute error difference."
+      ],
+      "question": "What smallest improvement would make switching worthwhile?",
+      "key_paths": []
+    },
+    {
+      "id": "pre-register-the-rule",
+      "station": "framing",
+      "track": "temporal_regression",
+      "title": "Record the decision rule before seeing results",
+      "why_this_step": "An advance record makes it possible to tell which evidence the choice was meant to use. It keeps an appealing result from silently changing the terms of the decision.",
+      "how_to_do_it": [
+        "Write the Control, Metric, minimum useful difference and decision conditions.",
+        "State what you will do when the evidence is inconclusive.",
+        "Record the rule as a Decision before the first Exposure."
+      ],
+      "how_to_read": "Read the recorded rule as instructions another person could apply. They should be able to tell when to keep the Control, choose the Candidate or defer the choice.",
+      "pitfalls": [
+        "A vague rule lets two people make different choices from the same evidence. A walkthrough reaches a case for which the rule gives no outcome.",
+        "A later edit can hide a change of mind. The Study has a result under one rule but the written rationale silently applies a different one."
+      ],
+      "question": "Could someone apply your rule to an inconclusive result without asking you to fill in a condition?",
+      "key_paths": []
+    },
+    {
+      "id": "feature-availability-at-prediction-time",
+      "station": "data",
+      "track": "temporal_regression",
+      "title": "Check when each feature becomes available",
+      "why_this_step": "A feature can describe the past and still arrive after prediction time. The model can rely on it only if the value is available when the forecast is due.",
+      "how_to_do_it": [
+        "List each feature's source, event time and first availability time.",
+        "Rebuild a sample of past inputs using the versions available at each cutoff.",
+        "Remove features that arrive late or replace them with values available by the cutoff."
+      ],
+      "how_to_read": "Read availability as a timeline. A daily total may carry the date it describes while becoming usable only when the source publishes it.",
+      "pitfalls": [
+        "A revised value can leak later information. The historical extract differs from the version published at prediction time.",
+        "A feature can arrive late only on some days. A cutoff replay shows gaps even though the latest extract has complete coverage."
+      ],
+      "question": "Which feature would disappear first if you rebuilt the data as it looked at each cutoff?",
+      "key_paths": []
+    },
+    {
+      "id": "data-quality-before-the-target",
+      "station": "data",
+      "track": "temporal_regression",
+      "title": "Inspect the inputs before using outcomes",
+      "why_this_step": "Input checks can expose collection and join problems before the outcome influences what you fix. Start with properties you could inspect at prediction time.",
+      "how_to_do_it": [
+        "Summarise missing inputs, duplicate keys and time coverage.",
+        "Compare those summaries across relevant sources and periods.",
+        "Record each exclusion rule and the input condition that triggers it."
+      ],
+      "how_to_read": "Read missingness by period and source. A normal overall rate can hide a complete outage in one period or repeated rows from a broken join.",
+      "pitfalls": [
+        "Dropping units after seeing their outcomes can improve the score artificially. The exclusion rule refers to error or outcome values unavailable at the cutoff.",
+        "A global summary can conceal a collection failure. A breakdown shows one source contributes almost no usable rows during an important period."
+      ],
+      "question": "Which input problem could leave the overall missingness rate looking acceptable?",
+      "key_paths": []
+    },
+    {
+      "id": "target-distribution-and-base-rate",
+      "station": "data",
+      "track": "temporal_regression",
+      "title": "Understand what outcomes are common",
+      "why_this_step": "A forecast can look accurate when it handles common outcomes and misses the ones that matter. The distribution tells you what the baseline must account for.",
+      "how_to_do_it": [
+        "Summarise the training outcomes in their natural units.",
+        "Compare typical values and extreme values across relevant time periods.",
+        "Check how often a decision-relevant outcome occurs when the decision uses a threshold."
+      ],
+      "how_to_read": "Read the centre, spread and tails together. If the decision depends on a threshold, the share above it gives the base rate for that event.",
+      "pitfalls": [
+        "A single average can hide seasonality or rare extremes. Summaries by period reveal a range the overall average misses.",
+        "A good score can come from predicting the common outcome. The baseline matches the overall score while forecasts miss the events that trigger action."
+      ],
+      "question": "Which rare outcome matters enough to check separately?",
+      "key_paths": []
+    },
+    {
+      "id": "temporal-split-and-partitions",
+      "station": "data",
+      "track": "temporal_regression",
+      "title": "Separate earlier training from later evaluation",
+      "why_this_step": "A temporal split tests predictions on a later period, where data and conditions can change. It also makes the timing of feature fitting and outcome maturity visible.",
+      "how_to_do_it": [
+        "Order units by prediction time before assigning Partitions.",
+        "Reserve a later period for development evaluation.",
+        "Check that training outcomes are mature before the first prediction in the later period.",
+        "Fit transformations using only the training data available at each cutoff."
+      ],
+      "how_to_read": "Read the split on a timeline. Trace a row near the boundary from its prediction time through its outcome window and the day that outcome became available.",
+      "pitfalls": [
+        "Overlapping outcome windows can bring later information into training. A boundary check finds a training outcome that was still incomplete when later forecasts begin.",
+        "A preprocessing step can use the whole dataset. Its fitted summaries include rows beyond the training boundary."
+      ],
+      "question": "Which training row near the boundary might still have an unfinished outcome?",
+      "key_paths": []
+    },
+    {
+      "id": "leakage-signals",
+      "station": "data",
+      "track": "temporal_regression",
+      "title": "Investigate signs of leakage",
+      "why_this_step": "A dramatic gain can come from information unavailable when you predict. An investigation should trace the gain to specific data or operations that you can verify.",
+      "how_to_do_it": [
+        "List inputs or transformations that could use future information.",
+        "Rebuild the suspect part using only what was available when each prediction was made.",
+        "Compare the result with the same baseline under the original split and Metric."
+      ],
+      "how_to_read": "Treat a sharp score change as a clue. Trace the input's availability and the operation's fit window before drawing a conclusion.",
+      "pitfalls": [
+        "A changed split can mimic the effect of removing leakage. The new run changes both the suspected input and the period being scored.",
+        "A timestamp check can accept a revised value as historical. A recorded snapshot at the cutoff contains a different version."
+      ],
+      "question": "Which input or transformation would you audit first if an unexpectedly large gain appeared?",
+      "key_paths": []
+    },
+    {
+      "id": "naive-baseline",
+      "station": "baseline",
+      "track": "temporal_regression",
+      "title": "Build a simple forecast to beat",
+      "why_this_step": "A simple forecast establishes how much value a more complex approach adds to patterns that are already easy to exploit.",
+      "how_to_do_it": [
+        "Choose a rule that uses information available at prediction time, such as the last available observation for the same weekday.",
+        "Fix the rule and its fallback for missing history before scoring.",
+        "Score the rule on the same units, horizon and Metric planned for the Candidate."
+      ],
+      "how_to_read": "Use the baseline result as a reference for improvement. A baseline that performs well can expose a Candidate that adds complexity for little gain.",
+      "pitfalls": [
+        "Using the last recorded observation instead of the last available one leaks information. The source first published it after the forecast was issued.",
+        "Dropping units without history makes the baseline look stronger. The covered units or the number of forecasts differ from the Candidate."
+      ],
+      "question": "What simple rule could someone apply using only information available when the forecast is issued?",
+      "key_paths": []
+    },
+    {
+      "id": "current-pipeline-as-control",
+      "station": "baseline",
+      "track": "temporal_regression",
+      "title": "Use the current pipeline as the Control",
+      "why_this_step": "The existing pipeline represents the choice the user can keep. Replaying it fairly measures what replacing it would change.",
+      "how_to_do_it": [
+        "Freeze the current pipeline and its settings before evaluating variants.",
+        "Reproduce the inputs, forecast timing and fallback behavior it would have used on each evaluation unit.",
+        "Score the Control and Candidate under the same Protocol."
+      ],
+      "how_to_read": "Check that the replay is representative of the current service. A good result against a simplified substitute gives weaker evidence for replacement.",
+      "pitfalls": [
+        "Reconstructing inputs from today's corrected data can distort the replay. Archived inputs differ from the values used in the replay.",
+        "Updating the Control during iteration shifts the comparison. The recorded Control changes between otherwise similar Assessments."
+      ],
+      "question": "Which part of the current pipeline would be hardest to reproduce as it ran at the time?",
+      "key_paths": []
+    },
+    {
+      "id": "permuted-target-check",
+      "station": "baseline",
+      "track": "temporal_regression",
+      "title": "Probe for shortcuts with shuffled targets",
+      "why_this_step": "A deliberately broken training signal can expose a pipeline that still learns from information it should be unable to see.",
+      "how_to_do_it": [
+        "Shuffle the training targets within a justified scheme that breaks the predictor and target association being tested.",
+        "Repeat the training and feature building steps with those targets while preserving the forecast timing and splits.",
+        "Score on the original validation targets and compare the result with the simple baseline."
+      ],
+      "how_to_read": "A surprising gain after shuffling calls for an audit. Consider what seasonal or group structure the shuffle preserves before interpreting the result.",
+      "pitfalls": [
+        "A stale cache can make the shuffle probe train against the original labels. The target table used for fitting still matches the unshuffled values.",
+        "Allowing nearby observations to cross the split can preserve dependence. The apparent gain shrinks when the split respects time and label availability."
+      ],
+      "question": "What relationship does your shuffle break, and what structure does it preserve?",
+      "key_paths": []
+    },
+    {
+      "id": "one-question-per-variant",
+      "station": "iterate",
+      "track": "temporal_regression",
+      "title": "Give each variant one question",
+      "why_this_step": "A focused change makes the result easier to interpret and gives the next variant a purpose.",
+      "how_to_do_it": [
+        "State the uncertainty the variant will address and the finding you expect.",
+        "Change the smallest part of the Configuration that can answer the question.",
+        "Hold the Protocol and Control fixed, then record the result against the original expectation."
+      ],
+      "how_to_read": "Read the result as evidence about the stated change under this Protocol. Coupled changes can still answer a question if they are explicitly evaluated as a package.",
+      "pitfalls": [
+        "Changing features, tuning and the evaluation window together hides the cause. A gain appears, but the records cannot attribute it to any one change.",
+        "Writing the question after scoring disguises an exploratory result as a prediction. The expectation has no record from before the Attempt."
+      ],
+      "question": "What is the smallest change that would help you answer your question?",
+      "key_paths": []
+    },
+    {
+      "id": "attempt-budget-and-dev-overuse",
+      "station": "iterate",
+      "track": "temporal_regression",
+      "title": "Set an Attempt budget before iteration",
+      "why_this_step": "Repeated choices based on dev results can fit the evaluation window itself. An Attempt budget preserves the value of the evidence for choosing.",
+      "how_to_do_it": [
+        "Set an Attempt budget and a stopping rule before examining variant results.",
+        "Keep a record of each dev result that could influence the next choice.",
+        "Use the remaining budget for questions whose answers could change the Decision."
+      ],
+      "how_to_read": "Treat a late dev gain in light of how many tries informed it. Look for a reason the change should help beyond the exact window already inspected.",
+      "pitfalls": [
+        "Repeatedly trying variations can select a lucky result. The strongest score follows many near-identical attempts with mixed outcomes.",
+        "Restarting the tally after a small change hides prior feedback. The variant history shows more dev-informed choices than the current budget records."
+      ],
+      "question": "What result would make further dev Attempts unlikely to change your Decision?",
+      "key_paths": []
+    },
+    {
+      "id": "validation-inside-the-training-window",
+      "station": "iterate",
+      "track": "temporal_regression",
+      "title": "Validate inside the training window",
+      "why_this_step": "Internal time-ordered validation lets you tune choices while keeping dev feedback for the decisions it was reserved to support.",
+      "how_to_do_it": [
+        "Place successive fit and validation windows within the original training period.",
+        "Fit preprocessing and the model using only data and mature labels available at each cutoff.",
+        "Choose settings from those internal runs and fit the selected Configuration on the eligible training data."
+      ],
+      "how_to_read": "Read the variation across cutoffs alongside the average score. A setting that helps only at one cutoff has weaker evidence than one that helps across times.",
+      "pitfalls": [
+        "Fitting transformations before splitting passes information backwards. Validation features change when later rows are removed.",
+        "Including labels that mature after the cutoff gives the fit future knowledge. Their observation times precede the cutoff but their availability times follow it."
+      ],
+      "question": "At a given validation cutoff, which training labels would still be unavailable?",
+      "key_paths": []
+    },
+    {
+      "id": "error-analysis-and-residuals",
+      "station": "iterate",
+      "track": "temporal_regression",
+      "title": "Find patterns in forecast errors",
+      "why_this_step": "A single score can hide systematic misses at times when users rely on the forecast most.",
+      "how_to_do_it": [
+        "Define the residual sign and group the errors using conditions available when forecasts were issued.",
+        "Compare errors across time and across groups tied to the user's Decision.",
+        "Check how many observations support each pattern and inspect whether it persists across periods."
+      ],
+      "how_to_read": "Read positive and negative residuals according to your sign convention. Look for repeated direction or scale within a group before proposing a change.",
+      "pitfalls": [
+        "Averaging signed residuals can hide large errors that cancel out. The average is near zero while absolute errors remain large.",
+        "Searching many small groups can make noise look persistent. The pattern depends on a few observations or disappears in the next window."
+      ],
+      "question": "Which recurring error would cause the most trouble for the person using the forecast?",
+      "key_paths": []
+    },
+    {
+      "id": "calibration",
+      "station": "iterate",
+      "track": "temporal_regression",
+      "title": "Check what forecast values and ranges promise",
+      "why_this_step": "Forecasts used to plan for risk need a reliable relationship between what they predict and what is observed.",
+      "how_to_do_it": [
+        "Group point forecasts into meaningful ranges and compare their average values with the average outcomes.",
+        "Check observed coverage against the intended coverage when the pipeline also supplies prediction intervals.",
+        "Repeat the check across important operating periods with enough observations to interpret the result."
+      ],
+      "how_to_read": "Look for systematic bias across point forecast ranges. For intervals, read coverage together with width. Very wide intervals may cover often while giving little guidance.",
+      "pitfalls": [
+        "Overall coverage can hide undercoverage when risk is highest. Misses concentrate in a busy period despite acceptable total coverage.",
+        "Using the same outcomes to fit a correction and check it makes the correction look more reliable. The gain shrinks at a later evaluation cutoff."
+      ],
+      "question": "Where would a biased point forecast or an overconfident range change the action someone takes?",
+      "key_paths": []
+    },
+    {
+      "id": "read-a-paired-delta",
+      "station": "compare_decide",
+      "track": "temporal_regression",
+      "title": "Relate the paired delta to the decision",
+      "why_this_step": "A paired delta measures a change on shared evaluation units. Its sign matters only when you know the subtraction order and the Metric direction.",
+      "how_to_do_it": [
+        "Identify the Candidate, the Control and the direction in which the Metric improves.",
+        "Confirm that the Comparison pairs outcomes from the same units under the same Protocol.",
+        "Translate the direction and size of the reported delta into what it would change for the user."
+      ],
+      "how_to_read": "Read the delta in the Metric's units. If it subtracts Control error from Candidate error, a positive delta means the Candidate error is larger.",
+      "pitfalls": [
+        "Switching the subtraction order reverses the interpretation. The written winner disagrees with the two scores and the stated formula.",
+        "Reading an aggregate gain as a gain for every group overstates the evidence. A group relevant to the user has little evidence of improvement."
+      ],
+      "question": "Given the subtraction order and Metric, which side of zero would support the Candidate?",
+      "key_paths": [
+        {
+          "read": "status",
+          "path": "comparisons[].delta.value"
+        }
+      ]
+    },
+    {
+      "id": "read-the-interval",
+      "station": "compare_decide",
+      "track": "temporal_regression",
+      "title": "Read the interval against your decision rule",
+      "why_this_step": "An interval describes uncertainty around the estimated gap. The decision rule sets the size of gap that matters in practice.",
+      "how_to_do_it": [
+        "Check the interval method and any dependence assumptions for repeated or nearby observations.",
+        "Put zero and the minimum useful improvement on the delta scale using the subtraction order and the direction of improvement.",
+        "Compare both bounds with those values and apply the rule stated before evaluation."
+      ],
+      "how_to_read": "An interval that crosses zero leaves both directions compatible with the estimate and method. An interval on the improvement side can still include gaps too small to act on.",
+      "pitfalls": [
+        "Reporting the point estimate alone conceals uncertainty. The preferred option changes when you apply the rule to the interval bounds.",
+        "Treating nearby observations as independent can produce an interval that is too narrow. Nearby forecast errors tend to move together."
+      ],
+      "question": "Which uncertainty matters for your choice, the direction of the effect or whether it is large enough?",
+      "key_paths": [
+        {
+          "read": "status",
+          "path": "comparisons[].interval.lower"
+        },
+        {
+          "read": "status",
+          "path": "comparisons[].interval.upper"
+        }
+      ]
+    },
+    {
+      "id": "comparability-and-warnings",
+      "station": "compare_decide",
+      "track": "temporal_regression",
+      "title": "Check whether the Comparison supports the claim",
+      "why_this_step": "A number can describe the wrong contrast when the two sides differ in coverage, scoring or what they could know at prediction time.",
+      "how_to_do_it": [
+        "Check the units, horizon, Metric, eligibility and pairing for both sides.",
+        "Read each warning or limitation before interpreting the delta.",
+        "Narrow the claim or defer the choice when a limitation prevents a fair answer to the original question."
+      ],
+      "how_to_read": "Distinguish a limitation that narrows who the result applies to from one that makes the contrast unreliable. Keep any resulting restriction with the Decision.",
+      "pitfalls": [
+        "Ignoring missing pairs can overstate gain. The usable units leave out part of the time range that motivated the change.",
+        "Interpreting a withheld delta as zero suggests equality. The panel instead shows a warning or an unavailable result."
+      ],
+      "question": "Which assumption would have to hold before you could act on this Comparison?",
+      "key_paths": []
+    },
+    {
+      "id": "record-your-words",
+      "station": "compare_decide",
+      "track": "temporal_regression",
+      "title": "Record the decision in your own words",
+      "why_this_step": "The next person needs to see the choice you made, the evidence you relied on and the conditions under which you would reopen it.",
+      "how_to_do_it": [
+        "State what you choose and link your reason to the Comparison.",
+        "Explain any uncertainty or limitation that affects the choice.",
+        "Review the wording in the panel and use Record when it says what you intend."
+      ],
+      "how_to_read": "A clear Decision identifies the action and explains how the evidence supports it. Someone returning later can tell whether new evidence changes the reason.",
+      "pitfalls": [
+        "Accepting wording you would not use can hide an important qualification. On rereading it, it promises more than you meant.",
+        "Writing only that the score improved makes the Decision hard to revisit. The reason gives no Metric direction, practical threshold or meaningful limitation."
+      ],
+      "question": "What finding would make you reopen this Decision?",
+      "key_paths": []
+    },
+    {
+      "id": "what-to-hand-over",
+      "station": "deliver",
+      "track": "temporal_regression",
+      "title": "Hand over the forecast and its limits",
+      "why_this_step": "A handover makes the forecast usable and lets someone reconstruct the evidence behind the Decision.",
+      "how_to_do_it": [
+        "Describe who will act on the forecast, when it is issued and where the result is delivered.",
+        "Document the exact Configuration, input expectations, fallback behavior and Decision rationale.",
+        "Give the recipient a way to reproduce the run and to find the relevant Study records."
+      ],
+      "how_to_read": "Ask whether a recipient can operate the forecast, recognise a case outside its scope and explain why this Configuration was chosen.",
+      "pitfalls": [
+        "Leaving out the fallback causes silent failures. The recipient has no usable procedure when an input arrives late.",
+        "Sharing only a summary score loses the decision trail. A recipient cannot find the Comparison, the Configuration or the limitations behind the choice."
+      ],
+      "question": "Could the recipient run the forecast and recognise when to fall back without asking you?",
+      "key_paths": []
+    },
+    {
+      "id": "what-to-monitor",
+      "station": "deliver",
+      "track": "temporal_regression",
+      "title": "Monitor what can change the decision",
+      "why_this_step": "Forecasts can become less useful as inputs, operating conditions or the time at which labels arrive change.",
+      "how_to_do_it": [
+        "Name the input freshness, forecast coverage and outcome measures that matter for the intended use.",
+        "Assign responsibility for observing those measures and acting when a review condition is met.",
+        "Plan an early input check and a later error check when outcomes have matured."
+      ],
+      "how_to_read": "Read input health and mature-outcome performance together. Healthy inputs can coexist with worse forecasts if the relationship to the outcome has changed.",
+      "pitfalls": [
+        "Counting incomplete outcomes as if they were complete distorts reported performance. Recent periods contain more missing labels.",
+        "Tracking only the overall error hides a failure that matters to one operating group. Group-level misses increase while the headline score appears stable."
+      ],
+      "question": "Which signal would tell you to act before the outcome labels arrive?",
+      "key_paths": []
+    },
+    {
+      "id": "next-cycle",
+      "station": "deliver",
+      "track": "temporal_regression",
+      "title": "Plan the next cycle around a new question",
+      "why_this_step": "A new cycle should address what the last Decision left uncertain or what monitoring shows has changed.",
+      "how_to_do_it": [
+        "Write the new question and identify the observation that raised it.",
+        "Choose fresh evaluation evidence and state how earlier results will inform the design.",
+        "Set a new decision rule and budget before using the new dev feedback."
+      ],
+      "how_to_read": "Keep the previous Decision as a record of what the evidence supported then. Explain which new conditions or findings would justify a different choice.",
+      "pitfalls": [
+        "Stretching the old conclusion into a new setting hides a change in scope. The next users, forecast timing or outcome differ from the prior Protocol.",
+        "Reusing repeatedly inspected data as independent evidence exaggerates confidence. The new choices were already informed by the same outcomes."
+      ],
+      "question": "What has changed since the last Decision that the next cycle ought to test?",
+      "key_paths": []
+    }
+  ]
+}

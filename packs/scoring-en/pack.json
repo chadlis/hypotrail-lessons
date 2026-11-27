@@ -1,0 +1,70 @@
+{
+  "schema_version": "lesson-pack/1",
+  "id": "scoring-en",
+  "version": "0.1.0",
+  "title": "Forecasting from framing to delivery",
+  "language": "en",
+  "licence": "unlicensed",
+  "tracks": [
+    "temporal_regression"
+  ],
+  "hypotrail": "bf43c71ac300072e83f1b70ff2094ee39eb09cb4",
+  "stations": [
+    {
+      "id": "intake",
+      "title": "Taking in the need",
+      "purpose": "Identify the person who will use the forecast and the choice it will help them make.",
+      "where": "chat",
+      "chat": true
+    },
+    {
+      "id": "framing",
+      "title": "Framing and success criterion",
+      "purpose": "Specify what will be known when predicting and define a decision rule before seeing results.",
+      "where": "chat",
+      "chat": true
+    },
+    {
+      "id": "data",
+      "title": "Data",
+      "purpose": "Check the timing, coverage and quality of the data the prediction will actually use.",
+      "where": "panel",
+      "chat": true
+    },
+    {
+      "id": "baseline",
+      "title": "Baseline",
+      "purpose": "Measure the simplest credible forecast under the same Protocol that will govern the Candidate.",
+      "where": "panel",
+      "chat": true
+    },
+    {
+      "id": "iterate",
+      "title": "Build, iterate, evaluate",
+      "purpose": "Change one part at a time and inspect development evidence before choosing another change.",
+      "where": "panel",
+      "chat": true
+    },
+    {
+      "id": "compare_decide",
+      "title": "Compare and decide",
+      "purpose": "Read a paired Comparison in context and keep the person’s reasoning with their Decision.",
+      "where": "panel",
+      "chat": true
+    },
+    {
+      "id": "held_out",
+      "title": "Held-out pass",
+      "purpose": "Run the protected assessment at the evaluator and return an aggregate report for the final Decision.",
+      "where": "evaluator",
+      "chat": false
+    },
+    {
+      "id": "deliver",
+      "title": "Deliver, monitor, next cycle",
+      "purpose": "Hand over the forecast and its limits, then decide what evidence would trigger another Study.",
+      "where": "outside",
+      "chat": true
+    }
+  ]
+}
