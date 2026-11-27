@@ -17,7 +17,16 @@
         "A forecast can arrive too late. When you replay a typical decision, the recipient has already committed to an action."
       ],
       "question": "Who can still act when the forecast arrives?",
-      "key_paths": []
+      "key_paths": [],
+      "illustration": {
+        "layout": "flow",
+        "labels": [
+          "Person using the forecast",
+          "Decision they face",
+          "Evidence they need"
+        ],
+        "caption": "Start with a person and an action. Use those to decide what the forecast should report."
+      }
     },
     {
       "id": "what-decision-changes",
@@ -54,7 +63,16 @@
         "Late data can make a historical forecast too strong. The replay includes a value posted after the declared cutoff."
       ],
       "question": "What would you actually know if you had to predict at the cutoff?",
-      "key_paths": []
+      "key_paths": [],
+      "illustration": {
+        "layout": "flow",
+        "labels": [
+          "Information cutoff",
+          "Prediction issued",
+          "Outcome observed"
+        ],
+        "caption": "Use only inputs available by the cutoff. Use the later outcome to judge the prediction."
+      }
     },
     {
       "id": "outcome-horizon-and-label-maturity",
@@ -168,7 +186,16 @@
         "A feature can arrive late only on some days. A cutoff replay shows gaps even though the latest extract has complete coverage."
       ],
       "question": "Which feature would disappear first if you rebuilt the data as it looked at each cutoff?",
-      "key_paths": []
+      "key_paths": [],
+      "illustration": {
+        "layout": "flow",
+        "labels": [
+          "Feature published",
+          "Forecast issued",
+          "Daily total arrives"
+        ],
+        "caption": "The early feature is available for this forecast. The daily total belongs to a later forecast."
+      }
     },
     {
       "id": "data-quality-before-the-target",
@@ -264,7 +291,16 @@
         "Dropping units without history makes the baseline look stronger. The covered units or the number of forecasts differ from the Candidate."
       ],
       "question": "What simple rule could someone apply using only information available when the forecast is issued?",
-      "key_paths": []
+      "key_paths": [],
+      "illustration": {
+        "layout": "flow",
+        "labels": [
+          "Last available observation",
+          "Simple forecast",
+          "Same Metric"
+        ],
+        "caption": "Build a baseline from information that would really be available. Score it under the Candidate's Protocol."
+      }
     },
     {
       "id": "current-pipeline-as-control",
@@ -321,7 +357,16 @@
         "Writing the question after scoring disguises an exploratory result as a prediction. The expectation has no record from before the Attempt."
       ],
       "question": "What is the smallest change that would help you answer your question?",
-      "key_paths": []
+      "key_paths": [],
+      "illustration": {
+        "layout": "flow",
+        "labels": [
+          "Keep the Control",
+          "Change one component",
+          "Compare on dev"
+        ],
+        "caption": "Use the same Protocol on both sides. A comparison of one change gives you a clearer next question."
+      }
     },
     {
       "id": "attempt-budget-and-dev-overuse",
@@ -449,7 +494,15 @@
           "read": "status",
           "path": "comparisons[].interval.upper"
         }
-      ]
+      ],
+      "illustration": {
+        "layout": "compare",
+        "labels": [
+          "Set the useful improvement",
+          "Read both interval bounds"
+        ],
+        "caption": "Put the rule and the interval on the same signed scale before interpreting the evidence."
+      }
     },
     {
       "id": "comparability-and-warnings",
@@ -506,7 +559,16 @@
         "Sharing only a summary score loses the decision trail. A recipient cannot find the Comparison, the Configuration or the limitations behind the choice."
       ],
       "question": "Could the recipient run the forecast and recognise when to fall back without asking you?",
-      "key_paths": []
+      "key_paths": [],
+      "illustration": {
+        "layout": "flow",
+        "labels": [
+          "Decision and reasons",
+          "Evidence and limits",
+          "Conditions for reuse"
+        ],
+        "caption": "Give the next reader enough context to apply the Decision and recognise when it needs another Study."
+      }
     },
     {
       "id": "what-to-monitor",
