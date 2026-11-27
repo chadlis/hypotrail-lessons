@@ -1,0 +1,40 @@
+name: lesson packs
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - id: pin
+        shell: bash
+        run: |
+          pin=$(cat hypotrail.pin)
+          [[ "$pin" =~ ^[0-9a-f]{40}$ ]]
+          echo "commit=$pin" >> "$GITHUB_OUTPUT"
+      - uses: actions/checkout@v4
+        with:
+          repository: chadlis/hypotrail
+          ref: ${{ steps.pin.outputs.commit }}
+          path: hypotrail
+      - uses: astral-sh/setup-uv@v6
+        with:
+          python-version: "3.13"
+      - name: Check the pinned fixture and each published pack
+        shell: bash
+        working-directory: hypotrail
+        run: |
+          uv sync --frozen --all-extras --all-groups
+          kept=clients/vscode/test/cli
+          uv run --frozen python -m hypotrail lesson check tests/fixtures/lesson_packs/minimal --kept "$kept"
+          shopt -s nullglob
+          for pack in ../packs/*; do
+            uv run --frozen python -m hypotrail lesson check "$pack" --kept "$kept"
+          done
